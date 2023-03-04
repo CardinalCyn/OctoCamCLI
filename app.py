@@ -1,6 +1,6 @@
 import argparse
 from flask import Flask
-from pygrabber.dshow_graph import FilterGraph
+from utils import generate_camera_obj
 import routes
 
 app = Flask(__name__)
@@ -17,11 +17,10 @@ args = parser.parse_args()
 
 # Handle the -cameras flag
 if args.cameras:
-    # Call your function here
-    devices = FilterGraph().get_input_devices()
-    available_cameras = {}
-    for device_index,device_name in enumerate(devices):
-        print(f'{device_index}: {device_name}')
+    # print all camera indices, camera names
+    available_cameras = generate_camera_obj()
+    for camera in available_cameras:
+        print(camera + ": " + str(available_cameras[camera]))
     exit()
 
 # Check if the required arguments have been provided

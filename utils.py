@@ -1,5 +1,15 @@
 from flask import Response
 import cv2
+from pygrabber.dshow_graph import FilterGraph
+import pythoncom
+
+def generate_camera_obj():
+    pythoncom.CoInitialize()
+    devices = FilterGraph().get_input_devices()
+    available_cameras = {}
+    for device_index,device_name in enumerate(devices):
+        available_cameras[device_name]=device_index
+    return available_cameras
 
 def generate_feed(camera_index,frame_width,frame_height):
     """

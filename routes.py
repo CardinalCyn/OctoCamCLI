@@ -3,7 +3,7 @@ creates routes for app
 """
 from flask import Response,request
 from pygrabber.dshow_graph import FilterGraph
-from utils import generate_feed,generate_snapshot
+from utils import generate_camera_obj,generate_feed,generate_snapshot
 import pythoncom
 
 def create_routes(app,arguments):
@@ -13,11 +13,8 @@ def create_routes(app,arguments):
     # iterates through camera list, returns list. returns objects of devices and their indices
     @app.route('/getCameras')
     def get_cameras():
-        pythoncom.CoInitialize()
-        devices = FilterGraph().get_input_devices()
-        available_cameras = {}
-        for device_index,device_name in enumerate(devices):
-            available_cameras[device_name]=device_index
+        # pythoncom.CoInitialize()
+        available_cameras=generate_camera_obj()
         return available_cameras
     #returns an object with the stream/snapshot links based on the arguments passed into py app.py
     @app.route('/getUrls')
